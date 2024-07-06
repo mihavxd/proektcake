@@ -1,0 +1,374 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+
+{% block title %}{{ post.title }} : {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+		<div class="cart_menu">
+			<div class="catalog_teg">
+                <link href="font-awesome.css" type="text/css" rel="stylesheet">
+                <div class="vn-breadcrumb" itemprop="http://schema.org/breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+                    <div class="vn-breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                        <a class="vn-breadcrumb-item-link" href="https://vanil-inka.ru/" title="Главная" itemprop="item">
+                            <span class="vn-breadcrumb-item-text" itemprop="name">Главная</span>
+                        </a>
+                        <meta itemprop="position" content="1">
+                    </div>
+                    <svg class="svg-inline--fa fa-angle-right fa-w-8 vn-breadcrumb-item-angle" aria-hidden="true" data-prefix="fa" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""></svg>
+                    <div class="vn-breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                        <a class="vn-breadcrumb-item-link" href="https://vanil-inka.ru/category/katalog-tortov/" title="Торты на заказ" itemprop="item">
+                            <span class="vn-breadcrumb-item-text" itemprop="name">Торты на заказ</span>
+                        </a>
+                        <meta itemprop="position" content="2">
+                    </div>
+                    <svg class="svg-inline--fa fa-angle-right fa-w-8 vn-breadcrumb-item-angle" aria-hidden="true" data-prefix="fa" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""></svg>
+                    <div class="vn-breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                        <span class="vn-breadcrumb-item-text"><span itemprop="name">Меренговый рулет</span></span>
+                        <meta itemprop="position" content="3">
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+
+    <div class="content">
+        <div class="container">
+            <h1 class="product_title">{{ post.title }}</h1>
+            <div class="product_detail product_detail_cake" itemscope="" itemtype="http://schema.org/Product">
+                <h1 class="product_title detail_name detail_name_mobile">{{ post.title }}</h1>
+                <div class="row">
+                    <div class="s-cnt-2 m-head-2">
+                        <div class="label_list label_list_new" >
+                            <span class="product_label product_label_new" title="Новинка"> Новинка </span>
+                            <span class="product_label sale_label" style="display: none;"></span>
+                        </div>
+                        <div class="picture_detail owl-carousel">
+                            {% for p in photos %}
+                                <div class="mySlide">
+                                    <img src="{{ p.image.url }}" style="width: 100%" alt="{{ post.title }}">
+                                </div>
+                            {% endfor %}
+                                <a class="prev_singl" onclick="plusSlides(-1)">&#10094;</a>
+                                <a class="next_singl" onclick="plusSlides(1)">&#10095;</a>
+                        </div>
+                        <div class="picture_detail owl-carousel">
+                            {% for p in photos %}
+                            <div class="column">
+                                <img class="demo cursor" src="{{ p.image.url }}" style="width: 100%" onclick="currentSlide(1)" alt="{{ post.title }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="s-cnt-3 m-head-2">
+                        <div class="detail_product_info detail_product_info--bg">
+                            <div class="buy_block">
+                                <h1 class="product_title detail_name">{{ post.title }}</h1>
+                                <div class="deg-set">
+                                    <a href="https://vanil-inka.ru/#">
+                                        <span>Меренговый рулет</span>
+                                        <span class="set-bottom">ПОПРОБОВАТЬ</span>
+                                    </a>
+                                </div>
+                                <div class="single_price">
+                                    <p class="priceFinal">{{ post.price }} руб./кг</p>
+                                    <p class="priceOriginal">1850 руб.</p>
+                                </div>
+                                <form action="{% url 'cart:cart_add' post.id %}" method="post">
+                                    <div class="delivery-block">
+                                        <div class="specs">
+                                            <div class="size">
+                                                <div class="dropdown">
+                                                    <div class="form dropContent">
+                                                        {{ cart_product_form }}
+                                                        {% csrf_token %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btnContainer fixedBtn" style="display: flex;">
+                                        <button class="btn add">
+                                        <img src="{% static 'img/shopping-cart-w.svg' %}" alt="">
+                                        В  корзину</button>
+                                    </div>
+                                </form>
+
+                                <div class="delivery-block">Бесплатная доставка в пределах города Курска </div>
+                                <div class="deg-set to-mobile">
+                                    <a href="https://vanil-inka.ru/#">
+                                        <span>меренговый рулет</span>
+                                        <span class="set-bottom">ПОПРОБОВАТЬ</span>
+                                    </a>
+                                </div>
+                                <div class="delivery-block">
+                                {% if post.tags.exists %}
+                                        <span>
+                                            Тэги:
+                                            {% for tag in post.tags.all %}
+                                            <a href="{{ tag.get_absolute_url }}">#{{ tag.title }}</a>
+                                            {% endfor %}
+                                        </span>
+                                        <br>
+                                    {% endif %}
+                                </div>
+                                <div class="delivery-block"><span>Просмотры: {{ post.views }}</span></div>
+                                {% if recommended_products %}
+                                        <div class="recommendations">
+                                        <h3>Рекомендуемые товары</h3>
+                                        {% for p in recommended_products %}
+                                            <div class="item">
+                                                <a href="{{ p.get_absolute_url }}">
+                                                  <img src="{% if p.photo %}{{ p.photo.url }}{% else %}
+                                                  {% static  'img/no_image.png' %}{% endif %}">
+                                                </a>
+                                                <p><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></p>
+                                            </div>
+                                        {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Tabs -->
+            <div class="tabs-header">
+                <div class="tablinks active" onclick="openTabs(event, 'Otziv')">Отзывы</div>
+                <div class="tablinks" onclick="openTabs(event, 'Desc')">Описание</div>
+                <div class="tablinks" onclick="openTabs(event, 'Taste')">Вкусы</div>
+            </div>
+
+            <div id="Otziv" class="tabcontent" style="display: block;">
+                <div class="row">
+                    <div class="s-cnt-3 m-cnt-5">
+                        <div class="average_rating">
+                            Отзывов: <span>{{ comments.count }}</span>
+                        </div>
+                        <div class="feedbacks_list">
+                            {% for comment in page_obj %}
+                                <div class="feedback">
+                                    <div class="row">
+                                        <div class="s-cnt-1 l-cnt-5">
+                                            <div class="feedback_author">{{ comment.name }}</div>
+                                        </div>
+                                        <div class="s-cnt-1 fb-padding-left-no l-cnt-1">
+                                            <div class="feedback_date">{{ comment.created_on }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="s-cnt-5">
+                                            {{ comment.body | linebreaks }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <div class="vanilinka_pagination_bottom">
+                            {% if page_obj.has_other_pages %}
+                                <div class="vanilinka_pagination_page">
+                                    <ul>
+                                        <li></li>
+                                        {% if page_obj.has_previous %}
+                                        <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                                        {% endif %}
+                                        {% for p in page_obj.paginator.page_range %}
+                                            {% if page_obj.number == p %}
+                                            <li class="vn_active">{{ p }}</li>
+                                            {% elif p > page_obj.number|add:-4 and p < page_obj.number|add:4 %}
+                                            <li><a href="?page={{ p }}">{{ p }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                            <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="s-cnt-2 m-cnt-6" style="margin-top: 0px;">
+                        <div class="row">
+                            <div class="s-cnt-5">
+                                <div class="add_feedback_title"> Оставьте отзыв </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="s-cnt-5">
+                                <div class="feedback_container">
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            {% if message.tags == 'error' %}
+                                                <div class="alert-danger" role="alert">{{ message }}</div>
+                                            {% else %}
+                                                <div class="alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <form method="post" style="margin-top: 1.3em;">
+                                        {{ comment_form.as_p }}
+                                        {% csrf_token %}
+                                        <input type="submit" name="iblock_submit" value="Добавить отзыв">
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="Desc" class="tabcontent desc_detail_block">
+                <div class="desc_title"> {{ post.title }} </div>
+                <div class="osoben">
+                    <div>бесплатная доставка</div>
+                    <div>100% натуральный</div>
+                </div>
+                <div class="desc_detail">
+                    {{ post.content|safe }}
+                </div>
+            </div>
+
+            <div id="Taste" class="tabcontent">
+
+                    <div class="taste-list">
+                        <div class="p-cnt-1 nl-cnt-4 nx-cnt-3 img-product">
+                            <div class="taste-product">
+                                <div class="over-img">
+                                    <img src="img/stam97pnlinv0bz7fmddwfb2oytbve8t.webp"
+                                        width="230" height="230" alt="Шоколад-суфле-карамель"
+                                        title="Шоколад-суфле-карамель">
+                                </div>
+                                <div class="taste-info">
+                                    <p class="taste-name"> «Шоколад-суфле-карамель» </p>
+                                    <div class="taste-descr">
+                                        <ul>
+                                            <li>шоколадный бисквит</li>
+                                            <li>нежное запеченное суфле с ароматом ванили</li>
+                                            <li>классический ванильный крем на основе творожного сыра</li>
+                                            <li>шоколадная карамель с добавлением темного бельгийского шоколада</li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-cnt-1 nl-cnt-4 nx-cnt-3 img-product">
+                            <div class="taste-product">
+                                <div class="over-img">
+                                    <img src="img/qj4te09wty48vr5xezk8z2hxyrgm55w7.webp"
+                                        width="230" height="230" alt="Манго-маракуйя"
+                                        title="Манго-маракуйя">
+                                </div>
+                                <div class="taste-info">
+                                    <p class="taste-name"> «Манго-маракуйя» </p>
+                                    <div class="taste-descr">
+                                        <ul>
+                                            <li>нежный ванильный бисквит</li>
+                                            <li>шелковый крем с маскарпоне и таитянской ванилью</li>
+                                            <li>тропическое конфи с кусочками манго и приятной кислинкой маракуйи</li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-cnt-1 nl-cnt-4 nx-cnt-3 img-product">
+                            <div class="taste-product">
+                                <div class="over-img">
+                                    <img src="img/z93rm89gl21wirzumpibxgauu8egiq0u.webp"
+                                        width="230" height="230" alt="Малина-фисташка"
+                                        title="Малина-фисташка">
+                                </div>
+                                <div class="taste-info">
+                                    <p class="taste-name"> «Малина-фисташка» </p>
+                                    <div class="taste-descr">
+                                        <ul>
+                                            <li>фисташковый бисквит</li>
+                                            <li>нежный фисташковый крем</li>
+                                            <li>яркое малиновое конфи</li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-cnt-1 nl-cnt-4 nx-cnt-3 img-product">
+                            <div class="taste-product">
+                                <div class="over-img">
+                                    <img src="img/9gx4wt0z18f83rsl8px8okp4mdg78jsd.webp"
+                                        width="230" height="230" alt="Вишня-шоколад"
+                                        title="Вишня-шоколад">
+                                </div>
+                                <div class="taste-info">
+                                    <p class="taste-name">«Вишня-шоколад»</p>
+                                    <div class="taste-descr">
+                                        <ul>
+                                            <li>влажный шоколадный бисквит</li>
+                                            <li>насыщенный шоколадный крем на основе темного
+                                                бельгийского шоколада</li>
+                                            <li>шелковая ванильная намелака</li>
+                                            <li>вишневое конфи с цельной вишней</li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-cnt-1 nl-cnt-4 nx-cnt-3 img-product">
+                            <div class="taste-product">
+                                <div class="over-img">
+                                    <img src="img/9gx4wt0z18f83rsl8px8okp4mdg78jsd.webp"
+                                        width="230" height="230" alt="Вишня-шоколад"
+                                        title="Вишня-шоколад">
+                                </div>
+                                <div class="taste-info">
+                                    <p class="taste-name"> «Орех - карамель» </p>
+                                    <div class="taste-descr">
+                                        <ul>
+                                            <li>фундучный бисквит</li>
+                                            <li>хрустящий слой с карамелизированным фундуком</li>
+                                            <li>шоколадный крем на основе темного и молочного
+                                                шоколада</li>
+                                            <li>соленая карамель</li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-cnt-1 nl-cnt-4 nx-cnt-3 img-product">
+                            <div class="taste-product">
+                                <div class="over-img">
+                                    <img src="img/0aepndj18lru3hq3p9d0k8kfe999t1o2.webp"
+                                        width="230" height="230" alt="Йогурт - лесные ягоды"
+                                        title="Йогурт - лесные ягоды">
+                                </div>
+                                <div class="taste-info">
+                                    <p class="taste-name"> «Йогурт - лесные ягоды» </p>
+                                    <div class="taste-descr">
+                                        <ul>
+                                            <li>бисквит с ягодами черной смородины и малины</li>
+                                            <li>йогуртовый крем на основе клубники, черной смородины
+                                                и творожного сыра</li>
+                                        </ul>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/slidsing.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tabs.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/all.min.js' %}"></script>
+
+{% endblock %}

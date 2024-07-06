@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /dostavka/
+Allow: /contactforms/
+Disallow: /vxd/
+Disallow: /category/
+Disallow: /tag/
+Disallow: /post/
+Disallow: /search/
+Sitemap: https://vanil-inka.ru/sitemap.xml

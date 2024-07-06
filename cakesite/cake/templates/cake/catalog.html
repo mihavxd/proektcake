@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+
+{% block title %}{{ title }} : {{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="main-page">
+            <div class="container">
+                <div class="row">
+                    <div class="vanilinka_list">
+                        <h2 class="show_title1">Натуральные торты на заказ в Курске</h2>
+                        <div data-entity="container-1">
+                            <div class="row_1">
+                                {% for post in posts %}
+                                    <div class="p-cnt-1 nl-cnt-4 nx-cnt-3 product_container" style="min-height: 509px;">
+                                        <div class="vanilinka_product">
+                                            <div class="product-item-container">
+                                                <div class="label_list">
+                                                    <span class="product_label new">Новинка</span>
+                                                    <span class="product_label sale_label" style="display: none;">Скидка<span>0%</span>
+                                                    </span>
+                                                </div>
+                                                <a class="product_wrapper show" href="{{ post.get_absolute_url }}" title="{{ post.title }}">
+                                                    <span class="product_image" style="background-image: url({{ post.photo.url }});">
+                                                </span>
+                                                </a>
+                                                <a href="{{ post.get_absolute_url }}" title="{{ post.title }}" class="product_name">{{ post.title }}</a>
+                                                <div class="product_weight">от 1 кг. </div>
+                                                <div class="product_price">
+                                                    <div class="price">
+                                                        <span>{{ post.price }}</span> руб.
+                                                    </div>
+                                                </div>
+                                                <div class="product_basket">
+                                                    <a class="add_basket" href="{{ post.get_absolute_url }}">Подробнее</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vanilinka_pagination_bottom">
+                {% if page_obj.has_other_pages %}
+                    <div class="vanilinka_pagination_page">
+                        <ul>
+                            <li></li>
+                            {% if page_obj.has_previous %}
+                            <li><a href="?page={{ page_obj.previous_page_number }}">&lt;</a></li>
+                            {% endif %}
+
+                            {% for p in page_obj.paginator.page_range %}
+                                {% if page_obj.number == p %}
+                                <li class="vn_active">{{ p }}</li>
+                                {% elif p > page_obj.number|add:-4 and p < page_obj.number|add:4 %}
+                                <li><a href="?page={{ p }}">{{ p }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <br>
+
+    </div>
+    <script type="text/javascript" src="{% static 'js/slidind.js' %}"></script>
+
+{% endblock %}

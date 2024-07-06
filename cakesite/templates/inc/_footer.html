@@ -1,0 +1,56 @@
+{% load menu %}
+{% load static %}
+
+
+<footer class="footer">
+    <div class="row_footer">
+        <div class="container">
+            <div class="footer_blocks">
+                <div class="footer_menu_left">
+                    <p>
+                        Часы работы: 10.00 – 20.00<br>
+                        Прием заказов: 09.00-20.00
+                    </p>
+                    <p></p>
+                    <p> Доставка по Курску ежедневно</p>
+                    <div class="footer_menu_column view">
+                        <a href="{% url 'politics' %}">Политика конфиденциальности</a>
+                    </div>
+                </div>
+                <div class="footer_menu_container">
+                    <ul class="footer_menu">
+                        <li><a href="/category/katalog-tortov/"><span>Торты на заказ</span></a></li>
+                        <li><a href="{% url 'dostavka' %}"><span>Доставка</span></a></li>
+                        <li><a href="{% url 'contactforms' %}"><span>Контакты</span></a></li>
+                    </ul>
+                </div>
+                <div class="phone_block">
+                    <p>Оформить доставку / Самовывоз</p>
+                    <p class="phone_contacts"><a href="tel:+79513116770" rel="nofollow">+7 (951) 311-67-70</a></p>
+                    <a href="/contactforms/" style="background: #846963;" rel="nofollow" class="order_call">Заказать торт</a>
+                </div>
+                <div class="social_block">
+                    <div class="row_social">
+                        <div class="list_social_icons">
+                            <a href="https://wa.me/79513116770{{ cake.get_absolute_url }}"
+                                onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+                                target="\_blank" rel="nofollow" class="social_icon whatsapp"
+                                title="WhatsApp"></a>
+                            <a href="https://vk.com/id37147578{{ cake.get_absolute_url }}"
+                                onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+                                target="\_blank" rel="nofollow" class="social_icon vkontakte"
+                                title="ВКонтакте"></a>
+                            <a href="https://t.me/vanilinkacake{{ cake.get_absolute_url }}"
+                                onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+                                target="\_blank" rel="nofollow" class="social_icon telegram"
+                                title="Telegram"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer_copyright">
+            <p>© 2024 Все права защищены.</p>
+        </div>
+    </div>
+</footer>

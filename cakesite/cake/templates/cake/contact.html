@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+
+Контакты : {{ block.super }}
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="content">
+    <div class="container">
+        <div class="contact_form">
+            <div class="contact-block-dc">
+                <div class="contact-block-dc-left">
+                    <h2>Напишите нам</h2>
+                    <p>Остались вопросы или опасения? Просто заполните форму, и мы свяжемся с вами.<br>
+                       Нажимая кнопку отправить вы даете согласие на обработку персональных данных.</p>
+                    <p>Тел: +7 951 311 67 70<br>
+                       Для электронных писем: vanil-inka@rambler.ru<br>
+                       г. Курск</p>
+                </div>
+                <div class="contact-block-dc-right">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == 'error' %}
+                                <div class="alert-danger" role="alert">{{ message }}</div>
+                            {% else %}
+                                <div class="alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <form action="{% url 'contactforms' %}" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                        <button class="btn_cr_tt">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

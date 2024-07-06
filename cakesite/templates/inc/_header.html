@@ -1,0 +1,79 @@
+{% load menu %}
+{% load static %}
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="m-head-1 l-cnt-4 view_sm">
+                <div class="logotype">
+                    <a href="{% url 'home' %}"><img class="img-responsive" width="220" height="68" src="{% static 'img/logo.svg' %}" alt=""></a>
+                </div>
+            </div>
+            <div class="l-cnt-1 t-head-4">
+                {% show_menu %}
+            </div>
+            <div class="m-head-8 l-cnt-4 view_sm t-head-2" style="padding-right: 0;">
+                <div class="contact_phones">
+                    <div class="contact_phones_content">
+                        <div>
+                            <a href="tel:+79513116770">+7 951 311-67-70</a>
+                            <div class="locate_off">с 09.00 до 20.00</div>
+                        </div>
+                    </div>
+                    <a href="http://wa.me/79513116770{{ cake.get_absolute_url }}"
+                        onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+                        target="\_blank" rel="nofollow"><img src="{% static 'img/watsapp.png' %}" class="contact_phones_image" title="WhatsApp" alt=""></a>
+                </div>
+            </div>
+            <div class="x-head-2 s-cnt-1 m-head-1 l-cnt-6 padding-left-no t-head-4">
+                <div class="login_block">
+                    <a href="{% url 'orders:order_create' %}" rel="nofollow" class="order_call" style="background: #a95147 !important;">Заказать торт</a>
+                    {% with total_items=cart|length %}
+                        {% if total_items > 0 %}
+                            <div class="shoppingCart">
+                                <div class="shoppingIcon" style="position: relative;">
+                                    <a href="{% url 'cart:cart_detail' %}">
+                                        <img src="{% static 'img/shopping-cart.svg' %}" alt="">
+                                        <span class="itemNumber">{{ cart.get_totalitem }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mobile_menu_container">
+            <div class="mobile_menu_content">
+                <ul>
+                    <li><a href="/category/katalog-tortov/">Торты на заказ</a></li>
+                    <li><a href="{% url 'dostavka' %}">Доставка</a></li>
+                    <li><a href="{% url 'contactforms' %}">Контакты</a></li>
+                </ul>
+
+                <div class="mobile_menu_other">
+                    <a href="/contactforms/" rel="nofollow" class="order_call">Заказать торт</a>
+
+                    <div class="mobile_menu_phones">
+                        <a class="wap_link_mobile"
+                            href="https://api.whatsapp.com/send/?phone=79513116770&amp;text&amp;type=phone_number&amp;app_absent=0">
+                            <img src="{% static 'img/watsapp.png' %}" alt="WhatsApp">
+                        </a>
+                        <div>
+                            <a href="tel:+79513116770">+7 (951) 311-67-70</a>
+                            <p>с 09.00 до 20.00</p>
+                            <a href="mailto:vanil-inka@rambler.ru" rel="nofollow">vanil-inka@rambler.ru</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile_menu_overlay"></div>
+
+
+    <script type="text/javascript" src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/mobile_menu.min.js' %}"></script>
+
+</header>
+

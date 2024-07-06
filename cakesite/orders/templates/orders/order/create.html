@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Оформление заказа : {{ block.super }}{% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+		<div class="cart_menu">
+			<div class="catalog_teg">
+                <link href="font-awesome.css" type="text/css" rel="stylesheet">
+                <div class="vn-breadcrumb" itemprop="http://schema.org/breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+                    <div class="vn-breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+				        <a class="vn-breadcrumb-item-link" href="https://vanil-inka.ru/" title="Главная" itemprop="item">
+					        <span class="vn-breadcrumb-item-text" itemprop="name">Главная</span>
+				        </a>
+				        <meta itemprop="position" content="1">
+			        </div>
+                    <svg class="svg-inline--fa fa-angle-right fa-w-8 bx-breadcrumb-item-angle" aria-hidden="true" data-prefix="fa" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""></svg>
+			        <div class="bx-breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                        <span class="bx-breadcrumb-item-text"><span itemprop="name">Корзина</span></span>
+                        <meta itemprop="position" content="2">
+			        </div>
+                </div>
+            </div>
+	    </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="cart_order_form">
+                <div class="basket_title">
+                    Оформление заказа
+                </div>
+                <div class="order_form">
+                    <div class="m-head-2 xs-padding-no" style="padding-left: 15px;">
+                        <form method="post" class="order-form">
+                        {{ form.as_p }}
+                            <div class="form-chek">
+                                <input type="checkbox" id="conditions" onclick="check();" value="" autocomplete="off"/>
+                                Ознакомлен(а) с <a href="{% url 'conditions' %}" target="_blank">условиями</a> оформления заказа.
+                            </div>
+                            <div class="form-chek">
+                                <input type="checkbox" id="politics" onclick="check();" value="" autocomplete="off"/>
+                                Даю согласие на обработку моих персональных данных.
+                            </div>
+                           <div class="confidential_container">
+                                Нажимая на кнопку "Оформить заказ", я соглашаюсь с <a href="{% url 'politics' %}" target="_blank">политикой конфиденциальности</a>
+                            </div>
+                        <input type="submit" name="submit" class="submit btn_ord" disabled="" value="Оформить заказ">
+                        {% csrf_token %}
+                         </form>
+                    </div>
+                    <div class="order_name_line">
+                        <div class="m-head-2 xs-padding-no">
+                            <div class="container_name">
+                                <h3>Ваш заказ:</h3>
+                                <div class="cart_total">
+                                    <div class="cart_summ">
+
+                                        {% for item in cart %}
+                                            <div class="ord_post order_sum_line">
+                                                <div class="ord_title">
+                                                    {{ item.post.title }}
+                                                </div>
+                                                <div class="ord_quantity order_sum_right">
+                                                    {{ item.quantity }} кг
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="ord_price order_sum_line">
+                                            <div class="ord_title">Скидка</div>
+                                            <div class="order_sum_right">
+                                                {% if cart.coupon %}
+                                                    <div>
+                                                        {{ cart.coupon.discount }} %
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="order_sum_line">
+                                            <div class="ord_title">Цена со скидкой</div>
+                                            <div class="ord_total order_sum_right">
+                                                <span>{{ cart.get_total_price_after_discount|floatformat:0 }} руб.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+    function check() {
+    var submit = document.getElementsByName('submit')[0];
+    var notChecked = false;
+    if (!document.getElementById('politics').checked) notChecked = true;
+    if (!document.getElementById('conditions').checked) notChecked = true;
+    if(!notChecked) submit.disabled = '';
+    else
+    submit.disabled = 'disabled';
+    }
+    </script>
+
+    <script type="text/javascript" src="{% static 'js/all.min.js' %}"></script>
+{% endblock %}

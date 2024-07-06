@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sidebar %}
+
+{% block title %} Корзина заказов : {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+		<div class="cart_menu">
+			<div class="catalog_teg">
+                <link href="font-awesome.css" type="text/css" rel="stylesheet">
+                <div class="vn-breadcrumb" itemprop="http://schema.org/breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+                    <div class="vn-breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+				        <a class="vn-breadcrumb-item-link" href="https://vanil-inka.ru/" title="Главная" itemprop="item">
+					        <span class="vn-breadcrumb-item-text" itemprop="name">Главная</span>
+				        </a>
+				        <meta itemprop="position" content="1">
+			        </div>
+                    <svg class="svg-inline--fa fa-angle-right fa-w-8 bx-breadcrumb-item-angle" aria-hidden="true" data-prefix="fa" data-icon="angle-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" data-fa-i2svg=""></svg>
+			        <div class="bx-breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+                        <span class="bx-breadcrumb-item-text"><span itemprop="name">Корзина</span></span>
+                        <meta itemprop="position" content="2">
+			        </div>
+                </div>
+            </div>
+	    </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="basket_form">
+                <div class="basket_title">
+                    Ваша корзина заказов
+                </div>
+                {% for item in cart %}
+                    {% with post=item.post %}
+                        <div class="basket_list_container">
+                            <div class="cr_image basket_padding_right">
+                                <a href="{{ post.get_absolute_url }}" class="bp_image vertical_center">
+                                    <img src="{% if post.photo %}{{ post.photo.url }}
+                                    {% else %}{% static 'img/no_image.png' %}{% endif %}"
+                                     class="img-responsive-cr" title="{{ post.title }}" alt="{{ post.title }}" style="width: 93px; height: auto; border-radius: 12px;">
+                                </a>
+                            </div>
+                            <div class="cr_title basket_padding_right">
+                                <a href="{{ post.get_absolute_url }}">
+                                    {{ post.title }}
+                                </a>
+                                <div class="cr_price_content basket_padding_top">
+                                    {{ item.price }} руб./кг
+                                </div>
+                            </div>
+                            <div class="cr_quantity basket_padding_right">
+                                <div class="cr_title">Вес (кг.)</div>
+                                <form action="{% url 'cart:cart_add' post.id %}" method="post">
+                                    <div class="form dropContent">
+                                       {{ item.update_quantity_form.quantity }}
+                                       {{ item.update_quantity_form.override }}
+                                       {% csrf_token %}
+                                    </div>
+                                    <input type="submit" value="Обновить">
+                                </form>
+                            </div>
+
+                            <div class="cr_remove">
+                                <form action="{% url 'cart:cart_remove' post.id %}" method="post">
+                                    <input type="submit" value="Удалить">
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                        </div>
+                    {% endwith %}
+                {% endfor %}
+                <div class="basket_list_container">
+                    <div class="cr_koupon basket_padding_right">
+                        <div class="cr_title">Промокод</div>
+                        <div class="cr_kupon_input basket_padding_top">
+                            <form action="{% url 'coupons:apply' %}" method="post">
+                            {{ coupon_apply_form }}
+                            {% csrf_token %}
+                            <input type="submit" value="Применить">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="cr_sale basket_padding_right">
+                        <div class="cr_title">Скидка</div>
+                        <div class="cr_sale basket_padding_top">
+                            {% if cart.coupon %}
+                                <div>
+                                    {{ cart.coupon.discount }}%
+                                    <br>
+                                    по промокоду "{{ cart.coupon.code }}"
+                                </div>
+                                <div>
+                                    – {{ cart.get_discount|floatformat:0 }} р.
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="cr_sale_answer">
+                        <div class="cr_title">Цена со скидкой</div>
+                        <div class="cr_sale_answer basket_padding_top">
+                            <span>{{ cart.get_total_price_after_discount|floatformat:0 }} руб.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cr_checkout">
+                    <form action="{% url 'orders:order_create' %}">
+                        <button class="btn_cr_tt">Оформить заказ</button>
+                    </form>
+                    <form action="/category/katalog-tortov/">
+                        <button class="btn_cr_tt">Продолжить покупки</button>
+                    </form>
+                </div>
+                {% if recommended_products %}
+                    <div class="recommendations cart">
+                        <h3>С этим товаром покупают:</h3>
+                        {% for p in recommended_products %}
+                            <div class="item">
+                                <a href="{{ p.get_absolute_url }}">
+                                <img src="{% if p.photo %}{{ p.photo.url }}{% else %}
+                                {% static 'img/no_image.png' %}{% endif %}">
+                                </a>
+                                <p><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/all.min.js' %}"></script>
+{% endblock %}
