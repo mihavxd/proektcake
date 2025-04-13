@@ -1,0 +1,9 @@
+Django==4.1.2
+django_ckeditor==6.5.1
+django_phonenumber_field==7.3.0
+redis==5.0.1
+
+django-ckeditor~=6.5.1
+django-recaptcha~=4.0.0
+django-phonenumber-field~=7.3.0
+django-debug-toolbar~=3.7.0

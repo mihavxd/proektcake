@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Оформление заказа : {{ block.super }}{% endblock %}
+
+
+{% block content %}
+
+    <div class="content">
+        <div class="container">
+            <div class="cart_order_form">
+                <div class="create_title">
+                    Оформление заказа
+                </div>
+                <div class="order_form">
+                    <div class="m-head-2 xs-padding-no" style="padding-left: 15px;">
+                        <form method="post" class="order-form">
+                        {{ form.as_p }}
+                            <div class="form-chek">
+                                <input type="checkbox" id="conditions" onclick="check();" value="" autocomplete="off"/>
+                                Ознакомлен(а) с <a href="{% url 'conditions' %}" target="_blank">условиями</a> оформления заказа.
+                            </div>
+                            <div class="form-chek">
+                                <input type="checkbox" id="politics" onclick="check();" value="" autocomplete="off"/>
+                                Даю согласие на обработку моих персональных данных.
+                            </div>
+                           <div class="confidential_container">
+                                Нажимая на кнопку "Оформить заказ", я соглашаюсь с <a href="{% url 'politics' %}" target="_blank">политикой конфиденциальности</a>
+                           </div>
+                        <input type="submit" name="submit" class="submit btn_ord" disabled="" value="Оформить заказ">
+                        {% csrf_token %}
+                        </form>
+                    </div>
+                    <div class="m-head-2 xs-padding-no" style="padding-left: 15px;">
+                        <h3>Ваш заказ:</h3>
+                        <div class="cart_total">
+                            <div class="cart_summ">
+                                {% for item in cart %}
+                                    <div class="ord_post order_sum_line">
+                                        <div class="ord_title">
+                                            {{ item.post.title }}
+                                        </div>
+                                        <div class="ord_quantity order_sum_right">
+                                            {{ item.quantity }} кг
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="ord_price order_sum_line">
+                                    <div class="ord_title">Скидка</div>
+                                    <div class="order_sum_right">
+                                        {% if cart.coupon %}
+                                            <div>
+                                                {{ cart.coupon.discount }} %
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="order_sum_line">
+                                    <div class="ord_title">Цена со скидкой</div>
+                                    <div class="ord_total order_sum_right">
+                                        <span>{{ cart.get_total_price_after_discount|floatformat:0 }} руб.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+    function check() {
+    var submit = document.getElementsByName('submit')[0];
+    var notChecked = false;
+    if (!document.getElementById('politics').checked) notChecked = true;
+    if (!document.getElementById('conditions').checked) notChecked = true;
+    if(!notChecked) submit.disabled = '';
+    else
+    submit.disabled = 'disabled';
+    }
+    </script>
+
+    <script type="text/javascript" src="{% static 'js/all.min.js' %}"></script>
+{% endblock %}

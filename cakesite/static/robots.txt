@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /dostavka/
+Allow: /contactforms/
+Allow: /category/
+Allow: /category/katalog-tortov/
+Allow: /post/
+Disallow: /vxd/
+Disallow: /tag/
+Disallow: /search/
+Clean-param: s /category/katalog-tortov/
+Sitemap: https://vanil-inka.ru/sitemap.xml

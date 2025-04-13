@@ -1,0 +1,16 @@
+{% load static %}
+<div class="{{ menu_class }}">
+    <div class="x-head-1 s-cnt-1 m-head-2 l-cnt-2 padding-right-no navcont">
+        <div class="mobile_menu"><span></span></div>
+        <a href="{% url 'home' %}" class="mobile_logo"><img class="img-responsive" width="240" height="76" src="{% static 'img/logo.svg' %}" alt=""></a>
+        <div class="main_menu_container view_xs view_sm">
+            <ul class="main_menu">
+                {% for item in categories %}
+                <li><a href="{{ item.get_absolute_url }}"><span>{{ item.title }}</span></a></li>
+                {% endfor %}
+                <li><a href="{% url 'dostavka' %}"><span>Доставка</span></a></li>
+                <li><a href="{% url 'contactforms' %}"><span>Контакты</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
