@@ -92,7 +92,11 @@
                                 </div>
                                 <div class="single_price">
                                     <p class="priceFinal">{{ post.price }}</p>
-                                    <p>руб./кг</p>
+                                    {% if post.id == 18 or post.id == 17 %}
+                                        <p>руб.</p>
+                                    {% else %}
+                                        <p>руб./кг</p>
+                                    {% endif %}
                                     {% if post.sale == True %}
                                         <p class="priceOriginal"> {{ post.get_original_price }} руб.</p>
                                     {% endif %}
@@ -121,7 +125,8 @@
                                     </div>
                                 </form>
 
-                                <div class="delivery-block">Бесплатная доставка в пределах города Курска </div>
+                                <div class="delivery-block">Только натуральные и качественные ингредиенты</div>
+								<div class="delivery-block">Цена указана за килограмм, минимальный вес 2 кг.</div>
                                 <div class="deg-set to-mobile">
                                     <a href="https://vanil-inka.ru/14/merengovyj-rulet/">
                                         <span>меренговый рулет</span>

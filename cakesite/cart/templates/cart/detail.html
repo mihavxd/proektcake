@@ -45,19 +45,34 @@
                                     {{ post.title }}
                                 </a>
                                 <div class="cr_price_content basket_padding_top">
-                                    {{ item.price }} руб./кг
+                                    {% if post.id == 18 or post.id == 19 %}
+                                        {{ item.price }} руб.
+                                    {% else %}
+                                        {{ item.price }} руб./кг
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="cr_quantity basket_padding_right">
                                 <div class="cr_title">Вес (кг.)</div>
-                                <form action="{% url 'cart:cart_add' post.id %}" method="post">
-                                    <div class="form dropContent">
-                                       {{ item.update_quantity_form.quantity }}
-                                       {{ item.update_quantity_form.override }}
-                                       {% csrf_token %}
-                                    </div>
+                                {% if post.id == 18 or post.id == 19 %}
+                                    <form action="{% url 'cart:cart_add' post.id %}" method="post">
+                                        <div class="form dropContent">
+                                           {{ item.update_quantity_form.quantity }}
+                                           {{ item.update_quantity_form.override }}
+                                           {% csrf_token %}
+                                        </div>
+                                    </form>
+                                {% else %}
+                                    <form action="{% url 'cart:cart_add' post.id %}" method="post">
+                                        <div class="form dropContent">
+                                           {{ item.update_quantity_form.quantity }}
+                                           {{ item.update_quantity_form.override }}
+                                           {% csrf_token %}
+                                        </div>
                                     <input type="submit" value="Обновить">
-                                </form>
+                                    </form>
+                                {% endif %}
+
                             </div>
 
                             <div class="cr_remove">

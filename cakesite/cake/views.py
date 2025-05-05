@@ -34,7 +34,7 @@ class PostsByCategory(ListView):
 
     def get_queryset(self):
         self.category = Category.objects.get(slug=self.kwargs['slug'])
-        queryset = Post.objects.all().filter(category__slug=self.category.slug)
+        queryset = Post.objects.all().filter(category__slug=self.category.slug, available=True)
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -50,7 +50,7 @@ class PostsByTag(ListView):
     allow_empty = False  # при запросе путстой категории выдает ошибку 404
 
     def get_queryset(self):
-        return Post.objects.filter(tags__slug=self.kwargs['slug'])
+        return Post.objects.filter(tags__slug=self.kwargs['slug'], available=True)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

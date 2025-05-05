@@ -22,7 +22,7 @@ def cart_add(request, post_id):
         cd = form_d.cleaned_data
         cart.add(post=post,
                  quantity=cd['quantity'],
-                 override_quantity=cd['override'])
+                 override_quantity=True)
     return redirect('cart:cart_detail')
 
 
@@ -37,14 +37,15 @@ def cart_remove(request, post_id):
 def cart_detail(request):
     cart = Cart(request)
     for item in cart:
-        if item.id == 18:
-            item['update_quantity_form'] = CartAddProductForm(initial={
+        if item['price'] == 2000:
+            item['update_quantity_form'] = CartAddDesertForm(initial={
                                 'quantity': item['quantity'],
                                 'override': True})
         else:
-            item['update_quantity_form'] = CartAddDesertForm(initial={
-                                    'quantity': item['quantity'],
-                                    'override': True})
+            item['update_quantity_form'] = CartAddProductForm(initial={
+                'quantity': item['quantity'],
+                'override': True})
+
 
     coupon_apply_form = CouponApplyForm()
 
