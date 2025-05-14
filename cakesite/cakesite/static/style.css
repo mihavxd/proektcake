@@ -2712,7 +2712,7 @@ a.delete_in_basket{
 	width: 100%;
 	display: block;
 	box-sizing: border-box;
-	background: #A95147 !important;;
+	background: #A95147;
 	padding: 6px 13px;
 	font-size: 12px;
 	line-height: 22px;
@@ -2729,6 +2729,10 @@ a.delete_in_basket{
 .btn_ord{
 	width: 50%;
 	margin: 20px 0;
+}
+input[disabled]{
+    background: gray;
+    color: white;
 }
 .confidential_container{
 	margin-bottom: 30px;
@@ -3518,7 +3522,10 @@ a.social_icon.telegram {
 	.login_block a.order_call{
         display: none;
     }
-	
+	.dot{
+	    height: 10px;
+	    width: 10px;
+	}
 	.vanilinka_pagination_page ul li{
         margin-bottom: 5px;
     }
